@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 export default function Register() {
     return (
       <View>
-          <Formik initialValues={{ firstname: '', lastname: '', telephoneNumber: '' }}
+          <Formik initialValues={{ firstname: '', lastname: '', phonenumber: '' }}
                   onSubmit={values => console.log(values)}
           >
               {({ handleChange, handleBlur, handleSubmit, values }) => (
@@ -18,7 +18,6 @@ export default function Register() {
                           value={values.firstname}
                           placeholder='Prénom'
                           textContentType='givenName'
-                          style={{ marginBottom: 50 }}
                       />
                       <Input
                           onChangeText={handleChange('lastname')}
@@ -26,7 +25,14 @@ export default function Register() {
                           value={values.lastname}
                           placeholder='Nom'
                           textContentType='familyName'
-                          style={{ marginBottom: 50 }}
+                      />
+                      <Input
+                          onChangeText={handleChange('phonenumber')}
+                          onBlur={handleBlur('phonenumber')}
+                          value={values.phonenumber}
+                          placeholder='Téléphone'
+                          textContentType='telephonenumber'
+                          keyboardType='phone-pad'
                       />
                       <Button onPress={handleSubmit} title='Enregistrement' />
                   </View>
