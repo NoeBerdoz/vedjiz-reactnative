@@ -5,10 +5,47 @@ import { Button, Input } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Register() {
+
+    // API
+    const axios = require('axios');
+
+    // Registration
+    async function onRegister(values: any) {
+        axios.post('api/user/apply', {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                Accept: "application/json"
+            },
+            firstname: values.firstname,
+            lastname: values.lastname,
+            phonenumber: values.phonenumber
+        })
+            .then(function (response: any){
+                console.log(response);
+            })
+            .catch(function (error: any) {
+                console.log(error)
+            });
+    }
+
+    // Login
+    async function onLogin(values: any) {
+        axios.post('api/me', {
+        })
+            .then(function (response: any) {
+                console.log(response);
+            })
+            .catch(function (error: any) {
+                console.log(error);
+            });
+    }
+
+
+
     return (
       <View>
           <Formik initialValues={{ firstname: '', lastname: '', phonenumber: '' }}
-                  onSubmit={values => console.log(values)}
+                  onSubmit={values => onRegister(values)}
           >
               {({ handleChange, handleBlur, handleSubmit, values }) => (
                   <View>
@@ -31,7 +68,7 @@ export default function Register() {
                           onBlur={handleBlur('phonenumber')}
                           value={values.phonenumber}
                           placeholder='Téléphone'
-                          textContentType='telephonenumber'
+                          textContentType='telephoneNumber'
                           keyboardType='phone-pad'
                       />
                       <Button onPress={handleSubmit} title='Enregistrement' />
@@ -40,7 +77,7 @@ export default function Register() {
           </Formik>
 
           <Formik initialValues={{ token: '' }}
-                  onSubmit={values => console.log(values)}
+                  onSubmit={values => onLogin(values)}
           >
               {({ handleChange, handleBlur, handleSubmit, values }) => (
                   <View>
@@ -50,7 +87,6 @@ export default function Register() {
                           value={values.token}
                           placeholder='Token'
                           textContentType='none'
-                          style={{ marginBottom: 50 }}
                       />
                       <Button onPress={handleSubmit} title='Connexion' />
                   </View>
