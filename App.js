@@ -7,12 +7,12 @@
  */
 
 /* First page basic ---> */
+import 'react-native-gesture-handler';
 import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
-  Button,
   View,
   Text,
   StatusBar,
@@ -26,43 +26,19 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import Router from './src/Router';
+import { ThemeProvider } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-function HomeScreen({ navigation }) {
-  return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-        <Button
-            title="Go to Market"
-            onPress={() => navigation.navigate('Market')}/>
-      </View>
-  );
-}
-
-function MarketScreen({ navigation }) {
-  return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Market Screen</Text>
-        <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-      </View>
-  );
-}
-
 const Stack = createStackNavigator();
-
 
 const App: () => React$Node = () => {
   return (
       <>
-
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Connexion' }}/>
-            <Stack.Screen name="Market" component={MarketScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-
+        <ThemeProvider>
+          <Router></Router>
+        </ThemeProvider>
       </>
   );
 };
