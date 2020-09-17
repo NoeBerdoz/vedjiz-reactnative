@@ -1,44 +1,24 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-/* First page basic ---> */
 import 'react-native-gesture-handler';
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { StyleSheet } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import Router from './src/Router';
 import { ThemeProvider } from 'react-native-elements';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import {  UserContainer} from './src/services';
 
 const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {
   return (
       <>
-        <ThemeProvider>
-          <Router></Router>
-        </ThemeProvider>
+        <UserContainer.Provider>
+          <ThemeProvider>
+            <Router></Router>
+          </ThemeProvider>
+        </UserContainer.Provider>
       </>
   );
 };

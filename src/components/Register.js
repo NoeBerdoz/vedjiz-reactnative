@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Formik } from 'formik';
 import { Button, Input } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
+import { UserContainer } from '../services';
 
 export default function Register() {
 
     // API
     const axios = require('axios');
+
+    // AUTHENTICATION SERVICE
+    const userContainer = UserContainer.useContainer();
+
 
     // Registration
     async function onRegister(values: any) {
@@ -30,10 +34,14 @@ export default function Register() {
 
     // Login
     async function onLogin(values: any) {
-        axios.post('api/me', {
+        axios.get('api/me', {
+            headers: {
+                Authorization: "Bearer " + values.token
+            }
         })
             .then(function (response: any) {
                 console.log(response);
+                userContainer.login(values.token);
             })
             .catch(function (error: any) {
                 console.log(error);
