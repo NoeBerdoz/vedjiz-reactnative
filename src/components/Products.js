@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, SafeAreaView} from 'react-native';
 import { ProductContainer } from '../services';
-import { ListItem } from 'react-native-elements';
+import {Avatar, ListItem} from 'react-native-elements';
 
 export default function Products() {
 
@@ -25,9 +25,37 @@ export default function Products() {
     };
 
     // Example console.log
-    if(productContainer.products)
+    if(productContainer.products){
         productContainer.products.forEach(product => console.log(product.pictureUrl))
+    }
 
+    console.log("test")
+    console.log(productContainer.products)
+
+    const renderItem = ({item}) => (
+        <ListItem bottomDivider>
+            <Avatar source={{uri: item.pictureUrl}} />
+            <ListItem.Content>
+                <ListItem.Title>{item.name}</ListItem.Title>
+            </ListItem.Content>
+            <ListItem.Chevron/>
+        </ListItem>
+    )
+
+    // NEW VERSION
+
+    return (
+        <SafeAreaView>
+            <FlatList
+                keyExtractor={(item, index) => index.toString()}
+                data={productContainer.products}
+                renderItem={renderItem}
+                refreshing={isLoading}
+            />
+        </SafeAreaView>
+    )
+
+    /* OLD VERSION DEPRECATED
     return (
         <View>
             <FlatList
@@ -49,4 +77,5 @@ export default function Products() {
             />
         </View>
     );
+    */
 }
