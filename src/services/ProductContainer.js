@@ -15,6 +15,7 @@ export const useProductContainer = () => {
             });
 
             setProducts(res.data.data.map((product: any) => {
+                product.pictureUrl = "http://10.0.2.2:8000/storage/pictures/" + product.picture;
                 return product
             }));
         } catch (e) {

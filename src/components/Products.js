@@ -24,6 +24,10 @@ export default function Products() {
         }
     };
 
+    // Example console.log
+    if(productContainer.products)
+        productContainer.products.forEach(product => console.log(product.pictureUrl))
+
     return (
         <View>
             <FlatList
