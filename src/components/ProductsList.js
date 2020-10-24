@@ -1,9 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, SafeAreaView} from 'react-native';
+import {FlatList, SafeAreaView, TouchableHighlight} from 'react-native';
 import { ProductContainer } from '../services';
 import {Avatar, ListItem} from 'react-native-elements';
+import {useNavigation} from '@react-navigation/native'
+import TouchableScale from 'react-native-touchable-scale';
 
-export default function Products() {
+export default function ProductsList() {
+
+    const navigation = useNavigation();
 
     const productContainer = ProductContainer.useContainer();
 
@@ -23,26 +27,29 @@ export default function Products() {
             setIsLoading(false);
         }
     };
-
+/*
     // Example console.log
     if(productContainer.products){
         productContainer.products.forEach(product => console.log(product.pictureUrl))
     }
-
-    console.log("test")
-    console.log(productContainer.products)
-
+*/
     const renderItem = ({item}) => (
-        <ListItem bottomDivider>
+        <ListItem
+            onPress={() => console.log("fewgw")}
+            Component={TouchableScale}
+            friction={90} //
+            tension={100} // These props are passed to the parent component (here TouchableScale)
+            activeScale={0.95} //
+            bottomDivider
+        >
             <Avatar source={{uri: item.pictureUrl}} />
             <ListItem.Content>
                 <ListItem.Title>{item.name}</ListItem.Title>
+                <ListItem.Subtitle>{item.price} CHF/kg, {item.stock} en stock</ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Chevron/>
         </ListItem>
     )
-
-    // NEW VERSION
 
     return (
         <SafeAreaView>
@@ -55,27 +62,4 @@ export default function Products() {
         </SafeAreaView>
     )
 
-    /* OLD VERSION DEPRECATED
-    return (
-        <View>
-            <FlatList
-                data={productContainer.products}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({item}) =>
-                <ListItem
-                    leftAvatar={{
-                        source: {
-                            uri: item.pictureUrl
-                        }
-
-                    }}
-                    title={item.name}
-                />
-                }
-                onRefresh={loadProducts}
-                refreshing={isLoading}
-            />
-        </View>
-    );
-    */
 }
