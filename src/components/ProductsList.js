@@ -35,7 +35,10 @@ export default function ProductsList() {
 */
     const renderItem = ({item}) => (
         <ListItem
-            onPress={() => console.log("fewgw")}
+            onPress={() => { navigation.navigate('Detail', {
+                itemID: item.id
+                })
+            }}
             Component={TouchableScale}
             friction={90} //
             tension={100} // These props are passed to the parent component (here TouchableScale)
@@ -45,7 +48,7 @@ export default function ProductsList() {
             <Avatar source={{uri: item.pictureUrl}} />
             <ListItem.Content>
                 <ListItem.Title>{item.name}</ListItem.Title>
-                <ListItem.Subtitle>{item.price} CHF/kg, {item.stock} en stock</ListItem.Subtitle>
+                <ListItem.Subtitle>{item.price} CHF / {item.unit}, {item.stock} en stock</ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Chevron/>
         </ListItem>

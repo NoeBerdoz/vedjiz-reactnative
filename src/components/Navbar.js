@@ -1,6 +1,6 @@
 import React from 'react';
 import Register from './Register';
-import ProductsList from './ProductsList';
+import ProductNavigation from './ProductNavigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 export default function Navbar() {
@@ -11,7 +11,7 @@ export default function Navbar() {
         <Tab.Navigator>
             <Tab.Screen
                 name="Produits"
-                component={ProductsList}
+                component={ProductNavigation}
             />
             <Tab.Screen
                 name="Profile"

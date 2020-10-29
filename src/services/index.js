@@ -3,4 +3,4 @@ import { useUserContainer } from './UserContainer';
 import { useProductContainer } from './ProductContainer';
 
 export const UserContainer = createContainer(useUserContainer);
-export const ProductContainer = createContainer(useProductContainer);
+export const ProductContainer = createContainer(useProductContainer(UserContainer));
