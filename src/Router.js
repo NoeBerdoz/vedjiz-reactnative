@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import Register from './components/Register';
-import Products from './components/Products';
+import Navbar from './components/Navbar';
 import { UserContainer } from './services';
-import StackNavigator from '@react-navigation/stack/src/navigators/createStackNavigator';
-
-const Stack = createStackNavigator();
+import Auth from './components/Auth';
 
 export default function Router() {
 
@@ -16,16 +12,14 @@ export default function Router() {
 
     userContainer.refreshToken();
     if (userContainer.token) {
-        homePage = <Stack.Screen name="Produits" component={Products}/>
+        homePage = <Navbar/>
     } else {
-        homePage = <Stack.Screen name="Inscription" component={Register}/>
+        homePage = <Auth/>
     }
 
     return (
         <NavigationContainer>
-            <Stack.Navigator>
-                {homePage}
-            </Stack.Navigator>
+            {homePage}
         </NavigationContainer>
     );
 }

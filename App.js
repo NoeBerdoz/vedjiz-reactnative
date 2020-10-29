@@ -5,19 +5,18 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import Router from './src/Router';
 import { ThemeProvider } from 'react-native-elements';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import {  UserContainer} from './src/services';
+import {  UserContainer, ProductContainer } from './src/services';
 
-const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {
   return (
       <>
         <UserContainer.Provider>
-          <ThemeProvider>
-            <Router></Router>
-          </ThemeProvider>
+          <ProductContainer.Provider>
+            <ThemeProvider>
+              <Router></Router>
+            </ThemeProvider>
+          </ProductContainer.Provider>
         </UserContainer.Provider>
       </>
   );
