@@ -8,6 +8,7 @@ const TOKEN_KEY = "@TOKEN";
 export const useUserContainer = () => {
     const [token, setToken] = useState();
     const [user, setUser] = useState();
+    const [balance, setBalance] = useState();
 
     const login = async (value: any) => {
         try {
@@ -38,5 +39,19 @@ export const useUserContainer = () => {
             })
     }
 
-    return {token, setToken, login, refreshToken, currentUser, user};
+    const currentUserBalance = async (token) => {
+        Axios.get("api/me/balance", {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        })
+            .then(function (response) {
+                setBalance(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+    return {token, setToken, login, refreshToken, currentUser, user, currentUserBalance, balance};
 }

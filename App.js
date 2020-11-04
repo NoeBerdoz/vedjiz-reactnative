@@ -1,21 +1,20 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
 import Router from './src/Router';
 import { ThemeProvider } from 'react-native-elements';
-import {  UserContainer, ProductContainer } from './src/services';
-
+import {  UserContainer, ProductContainer, BasketContainer } from './src/services';
 
 const App: () => React$Node = () => {
   return (
       <>
         <UserContainer.Provider>
           <ProductContainer.Provider>
-            <ThemeProvider>
-              <Router></Router>
-            </ThemeProvider>
+            <BasketContainer.Provider>
+              <ThemeProvider>
+                <Router></Router>
+              </ThemeProvider>
+            </BasketContainer.Provider>
           </ProductContainer.Provider>
         </UserContainer.Provider>
       </>
@@ -24,42 +23,7 @@ const App: () => React$Node = () => {
 
 const styles = StyleSheet.create({
   /* React Native Styling Components list : https://github.com/vhpoet/react-native-styling-cheat-sheet */
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
+
 });
 
 export default App;
