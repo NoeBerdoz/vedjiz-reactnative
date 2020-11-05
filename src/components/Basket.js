@@ -1,8 +1,10 @@
 import { Picker } from '@react-native-community/picker';
 import React, {useMemo, useState} from 'react';
 import { BasketContainer, ProductContainer } from '../services';
-import {FlatList, View} from 'react-native';
-import {Button, ListItem, Text} from 'react-native-elements';
+import {FlatList, SafeAreaView, View} from 'react-native';
+import {Avatar, Button, ListItem, Text} from 'react-native-elements';
+import TouchableScale from 'react-native-touchable-scale';
+import {TextInput} from 'react-native-gesture-handler';
 
 export default function Basket() {
 
@@ -10,18 +12,60 @@ export default function Basket() {
     const productContainer = ProductContainer.useContainer();
     const basketContainer = BasketContainer.useContainer();
 
-    console.log(basketContainer)
 
     const basketPrice = useMemo(() => {
         let price = 0; // initialize price
 
-        basketContainer.basket.forEach(function (product) {
-            price += product.price;
+        basketContainer.basket.forEach(function (quantity, productId) {
+
+            let product = productContainer.getProduct(productId);
+
+            if (product) {
+                price += product.price * quantity;
+            }
         });
+
         return Math.round(price * 100) / 100; // Returns a supplied numeric expression rounded to the nearest integer.
 
     }, [basketContainer.basket])
-    console.log()
+
+    const productsFromBasketWithQuantity = []
+
+    basketContainer.basket.forEach((quantity, productId) => {
+        const product = productContainer.getProduct(productId)
+
+        productsFromBasketWithQuantity.push({
+            ...product,
+            quantity
+        })
+    })
+
+    const renderItem = ({item}) => (
+        <ListItem
+            onPress={() => basketContainer.removeFromBasket(item)}
+            Component={TouchableScale}
+            friction={90}
+            tension={100}
+            activeScale={0.95}
+            bottomDivider
+        >
+            <Avatar source={{uri: item.pictureUrl}} />
+            <ListItem.Content>
+                <ListItem.Title>{item.name}</ListItem.Title>
+                <ListItem.Subtitle>{item.price} CHF / {item.unit}, {item.stock} en stock</ListItem.Subtitle>
+                <TextInput
+                    keyboardType="numeric"
+                    value={item.quantity.toString()}
+                    onChangeText={value => {
+                        if (!isNaN(Number(value)))
+                            basketContainer.addToBasket(item, Number(value))
+                    }}
+                />
+            </ListItem.Content>
+            <ListItem.Chevron/>
+        </ListItem>
+    )
+
     return (
         <View>
             <View>
@@ -36,33 +80,19 @@ export default function Basket() {
                     }
                 </Picker>
             </View>
-
-            <FlatList
-                data={basketContainer.basket}
-                keyExtractor={((item => String(item.id)))}
-                renderItem={({item}) =>
-                    <ListItem
-                        leftAvatar={{
-                            source: {
-                                uri: item.pictureUrl
-                            }
-                        }}
-                        title={item.name}
-                        subtitle={`CHF ${item.price}/${item.unit}, Stock: ${item.stock}`}
-                        onPress={() => {
-                            basketContainer.removeFromBasket(item);
-                        }}
-                        bottomDivider
-                        chevron
-                    />
-                }
-            />
+            <SafeAreaView>
+                <FlatList
+                    keyExtractor={(item, index) => index.toString()}
+                    data={productsFromBasketWithQuantity}
+                    renderItem={renderItem}>
+                </FlatList>
+            </SafeAreaView>
 
             <Button
                 title="Ajouter au panier"
-                onPress={(value) => {
+                onPress={() => {
                     if (selectedProduct) {
-                        basketContainer.addToBasket(selectedProduct);
+                        basketContainer.addToBasket(selectedProduct, 1);
                     }
                 }}
                 disabled={selectedProduct == null}
