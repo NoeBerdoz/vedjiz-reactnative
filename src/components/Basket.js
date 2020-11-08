@@ -1,6 +1,6 @@
 import { Picker } from '@react-native-community/picker';
 import React, {useMemo, useState} from 'react';
-import { BasketContainer, ProductContainer } from '../services';
+import {BasketContainer, ProductContainer, UserContainer} from '../services';
 import {FlatList, SafeAreaView, View} from 'react-native';
 import {Avatar, Button, ListItem, Text} from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
@@ -11,7 +11,6 @@ export default function Basket() {
     const [selectedProduct, setSelectedProduct] = useState();
     const productContainer = ProductContainer.useContainer();
     const basketContainer = BasketContainer.useContainer();
-
 
     const basketPrice = useMemo(() => {
         let price = 0; // initialize price
@@ -39,6 +38,8 @@ export default function Basket() {
             quantity
         })
     })
+
+    console.log(productsFromBasketWithQuantity)
 
     const renderItem = ({item}) => (
         <ListItem
@@ -93,6 +94,15 @@ export default function Basket() {
                 onPress={() => {
                     if (selectedProduct) {
                         basketContainer.addToBasket(selectedProduct, 1);
+                    }
+                }}
+                disabled={selectedProduct == null}
+            />
+            <Button
+                title="Valider le payement"
+                onPress={() => {
+                    if (selectedProduct) {
+                        basketContainer.postBasketToApi(productsFromBasketWithQuantity)
                     }
                 }}
                 disabled={selectedProduct == null}

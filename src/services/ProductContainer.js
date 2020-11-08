@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import Axios from "axios";
 
 export const useProductContainer = (UserContainer) => {
@@ -27,6 +27,10 @@ export const useProductContainer = (UserContainer) => {
             return products.find((product: { id: number; }) => product.id === id)
         };
 
-        return {products, getProducts, getProduct}
+        const getProductByCurrent = (current: any) => {
+            return products.filter((product: { current: number; }) => product.current === current)
+        }
+
+        return {products, getProducts, getProduct, getProductByCurrent}
     }
 };

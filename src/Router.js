@@ -11,6 +11,7 @@ export default function Router() {
     let homePage;
 
     userContainer.refreshToken();
+    // Redirect to Register if no token
     if (userContainer.token) {
         homePage = <Navbar/>
     } else {

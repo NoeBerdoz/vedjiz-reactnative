@@ -5,4 +5,4 @@ import { useBasketContainer } from './BasketContainer';
 
 export const UserContainer = createContainer(useUserContainer);
 export const ProductContainer = createContainer(useProductContainer(UserContainer));
-export const BasketContainer = createContainer(useBasketContainer);
+export const BasketContainer = createContainer(useBasketContainer(UserContainer));

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React from "react";
+import { View, ToastAndroid } from 'react-native';
 import { Formik } from 'formik';
 import { Button, Input } from 'react-native-elements';
 import { UserContainer } from '../services';
@@ -11,7 +11,6 @@ export default function Register() {
 
     // AUTHENTICATION SERVICE
     const userContainer = UserContainer.useContainer();
-
 
     // Registration
     async function onRegister(values: any) {
@@ -26,9 +25,11 @@ export default function Register() {
         })
             .then(function (response: any){
                 console.log(response);
+                ToastAndroid.show("Nous avons bien reçus votre inscription, vous recevrez votre token de connexion prochainement.", ToastAndroid.LONG)
             })
             .catch(function (error: any) {
                 console.log(error)
+                ToastAndroid.show("Erreur lors de votre inscription, vérifier les données insérées", ToastAndroid.SHORT)
             });
     }
 

@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import {ProductContainer} from '../services';
 
@@ -19,17 +19,19 @@ export default function Product({ route }) {
         <View>
             <Image
                 source={{ uri: product.pictureUrl }}
-                style={{ width: 500, height: 100 }}
+                style={styles.productImage}
                 PlaceholderContent={<ActivityIndicator />}
             />
-            <PricingCard
-                color="#4f9deb"
-                title={product.name}
-                price={product.price+" CHF / "+product.unit}
-                info={[product.details] }
-                button={{ title: 'Acheter' }}
-                onButtonPress={() => console.log({product})}
-            />
+            <View style={styles.viewPrincingCard}>
+                <PricingCard
+                    color="#4f9deb"
+                    title={product.name}
+                    price={product.price+" CHF / "+product.unit}
+                    info={[product.details] }
+                    button={{ title: 'Acheter' }}
+                    onButtonPress={() => console.log({product})}
+                />
+            </View>
 
             <View style={styles.supplierView}>
                 <Text style={styles.headingSupplier}>Fournisseurs :</Text>
@@ -50,6 +52,15 @@ export default function Product({ route }) {
 }
 
 const styles = StyleSheet.create({
+    productImage: {
+        width: 500,
+        height: 150,
+    },
+
+    viewPrincingCard: {
+        marginTop: -16,
+    },
+
     supplierView: {
         backgroundColor: "white",
         borderColor: "#dedbed",
