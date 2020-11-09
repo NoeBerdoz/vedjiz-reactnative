@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {FlatList, TextInput, View, StyleSheet} from 'react-native';
-import {Avatar, Button, Image, ListItem, Text} from "react-native-elements";
+import {Avatar, Button, Image, Input, ListItem, Text} from "react-native-elements";
 import {ProductContainer, StockerContainer} from '../services';
+import {Formik} from "formik";
 
 
 export default function Stocker() {
@@ -26,31 +27,31 @@ export default function Stocker() {
     }
 
 
-
-    console.log("new stock:")
-
     const renderItemStocker = ({item}) => (
-        <View style={styles.viewStocker}>
-            <Image source={{uri: item.pictureUrl}}
-                   style={{ width: 200, height: 200 }}
-            />
-            <Text>{item.name}</Text>
-            <TextInput
-                style={styles.inputStocker}
-                keyboardType="numeric"
-                onChangeText={value => {
-                    if (!isNaN(Number(value)))
-                        stockerContainer.addToStocker(item, Number(value))
-                }}
-            >{item.stock}</TextInput>
-            <Button
-                title="Valider le stock"
-                onPress={value => {
-                        stockerContainer.addToStocker(item, value)
-                        console.log("OK")
-                        console.log(stockerContainer.addToStocker(item, value))
-                }}
-            />
+        <View>
+            <View style={styles.viewStocker}>
+                <Image source={{uri: item.pictureUrl}}
+                       style={{ width: 200, height: 200 }}
+                />
+                <Text>{item.name}</Text>
+            </View>
+            <Formik initialValues={{stock: item.stock.toString()}}
+                    onSubmit={value => stockerContainer.addToStocker(item, value)}
+            >
+                {({ handleChange, handleBlur, handleSubmit, values }) => (
+                    <View>
+                        <Text>Stock actuel:</Text>
+                        <Input
+                            onChangeText={handleChange('stock')}
+                            onBlur={handleBlur('stock')}
+                            keyboardType='phone-pad'
+                            value={values.stock}
+                        />
+                        <Button onPress={handleSubmit} title="Valider le stock"/>
+                    </View>
+
+                )}
+            </Formik>
         </View>
     )
 
