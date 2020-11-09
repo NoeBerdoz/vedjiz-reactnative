@@ -57,7 +57,7 @@ export default function Stocker() {
             <Formik initialValues={{quantity: actualProduct[index].stock.toString()}}
                     onSubmit={
                         value => {
-                            stockerContainer.addToStocker(actualProduct, value)
+                            stockerContainer.addToStocker(actualProduct[index], value)
                             stockerContainer.postStockerToApi(stockerContainer.stocker)
                             nextProduct();
                         }
