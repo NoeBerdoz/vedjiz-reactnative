@@ -5,6 +5,7 @@ import Profile from './Profile';
 import Basket from './Basket';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon5 from 'react-native-vector-icons/FontAwesome5';
+import Stocker from "./Stocker";
 
 export default function Navbar() {
 
@@ -44,6 +45,10 @@ export default function Navbar() {
             <Tab.Screen
                 name="MyProfile"
                 component={Profile}
+            />
+            <Tab.Screen
+                name="Stock"
+                component={Stocker}
             />
         </Tab.Navigator>
     );

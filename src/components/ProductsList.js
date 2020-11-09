@@ -15,7 +15,6 @@ export default function ProductsList() {
     // Switch state for filter
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState)
-    console.log(isEnabled)
 
     useEffect(() => {
         loadProducts();

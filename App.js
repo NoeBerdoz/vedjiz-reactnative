@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import Router from './src/Router';
 import { ThemeProvider } from 'react-native-elements';
-import {  UserContainer, ProductContainer, BasketContainer } from './src/services';
+import {UserContainer, ProductContainer, BasketContainer, StockerContainer} from './src/services';
 
 const App: () => React$Node = () => {
   return (
@@ -11,9 +11,11 @@ const App: () => React$Node = () => {
         <UserContainer.Provider>
           <ProductContainer.Provider>
             <BasketContainer.Provider>
-              <ThemeProvider>
-                <Router></Router>
-              </ThemeProvider>
+                <StockerContainer.Provider>
+                    <ThemeProvider>
+                        <Router></Router>
+                    </ThemeProvider>
+                </StockerContainer.Provider>
             </BasketContainer.Provider>
           </ProductContainer.Provider>
         </UserContainer.Provider>
