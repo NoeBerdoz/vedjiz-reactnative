@@ -11,6 +11,23 @@ export default function Stocker() {
     const stockerContainer = StockerContainer.useContainer();
     const [isLoading, setIsLoading] = useState(false);
 
+    let allProducts = productContainer.products
+
+    const [actualProduct, setActualProduct] = useState(allProducts);
+    const [index, setIndex] = useState(0);
+
+    useEffect(() => {
+        setActualProduct(allProducts);
+    }, [allProducts])
+
+    function nextProduct() {
+        setIndex(index === actualProduct.length -1 ? 0 : index + 1);
+    }
+
+    function previousProduct() {
+        setIndex(index === 0 ? actualProduct.length -1 : index -1);
+    }
+
     useEffect(() => {
         loadProducts();
     }, []);
@@ -26,26 +43,35 @@ export default function Stocker() {
         }
     }
 
-
-    const renderItemStocker = ({item}) => (
+    return (
         <View>
+            <Text h1>Validation du stock</Text>
             <View style={styles.viewStocker}>
-                <Image source={{uri: item.pictureUrl}}
-                       style={{ width: 200, height: 200 }}
-                />
-                <Text>{item.name}</Text>
+                <Text h2>{actualProduct[index].name}</Text>
+                <Image source={{uri: actualProduct[index].pictureUrl}} style={{ width: 200, height: 200 }} />
+                <View style={styles.viewButtons}>
+                    <Button onPress={previousProduct} title="Précédent"/>
+                    <Button onPress={nextProduct} title="Suivant" />
+                </View>
             </View>
-            <Formik initialValues={{stock: item.stock.toString()}}
-                    onSubmit={value => stockerContainer.addToStocker(item, value)}
+            <Formik initialValues={{quantity: actualProduct[index].stock.toString()}}
+                    onSubmit={
+                        value => {
+                            stockerContainer.addToStocker(actualProduct, value)
+                            stockerContainer.postStockerToApi(stockerContainer.stocker)
+                            nextProduct();
+                        }
+                    }
             >
                 {({ handleChange, handleBlur, handleSubmit, values }) => (
                     <View>
-                        <Text>Stock actuel:</Text>
+                        <Text style={styles.textUnit}>Stock actuel en {actualProduct[index].unit}</Text>
                         <Input
-                            onChangeText={handleChange('stock')}
-                            onBlur={handleBlur('stock')}
-                            keyboardType='phone-pad'
-                            value={values.stock}
+                            onChangeText={handleChange('quantity')}
+                            onBlur={handleBlur('quantity')}
+                            keyboardType='decimal-pad'
+                            placeholder={actualProduct[index].stock.toString()}
+                            value={values.quantity}
                         />
                         <Button onPress={handleSubmit} title="Valider le stock"/>
                     </View>
@@ -54,29 +80,22 @@ export default function Stocker() {
             </Formik>
         </View>
     )
-
-    return (
-        <View>
-            <Text h1>Validation du stock</Text>
-            <FlatList
-                keyExtractor={(item, index) => index.toString()}
-                data={productContainer.products}
-                renderItem={renderItemStocker}
-                refreshing={isLoading}
-                onRefresh={loadProducts}
-            />
-
-
-        </View>
-    )
 }
 
 const styles = StyleSheet.create({
     viewStocker: {
-        alignItems: "center",
+        alignItems: 'center',
     },
-    inputStocker: {
-        backgroundColor: "white",
-        margin: 5
-    }
+
+    viewButtons: {
+        alignItems: 'center',
+        flexDirection:'row',
+    },
+
+    textUnit: {
+        fontSize: 20,
+        marginTop: 20,
+        textAlign: "center"
+    },
+
 })
